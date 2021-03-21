@@ -1,20 +1,14 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
-from selenium.webdriver.firefox.webdriver import WebDriver
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
-import time, unittest
+import unittest
 
 class TestAddGroup(unittest.TestCase):
     def setUp(self):
         self.wd = webdriver.Firefox()
-        self.wd.implicitly_wait(30)
+        self.wd.implicitly_wait(60)
 
-    
     def test_add_group(self):
         wd = self.wd
         wd.get("http://localhost/addressbook/")
@@ -49,7 +43,6 @@ class TestAddGroup(unittest.TestCase):
         except NoAlertPresentException as e: return False
         return True
 
-    
     def tearDown(self):
         self.wd.quit()
 
