@@ -5,7 +5,7 @@ class ContactHelper:
 
     def open_contact_page(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("add new").click()
+        wd.find_element_by_link_text("home").click()
 
     def fill_form(self, contact):
         wd = self.app.wd
@@ -33,18 +33,20 @@ class ContactHelper:
         wd.find_element_by_name("email").click()
         wd.find_element_by_name("email").clear()
         wd.find_element_by_name("email").send_keys(contact.email)
-        # submit contact creation
-        wd.find_element_by_xpath("//*[@type='submit']").click()
-        self.return_to_homepage()
 
     def create(self, contact):
         wd = self.app.wd
         self.open_contact_page()
+        wd.find_element_by_link_text("add new").click()
         # fill contact form
         self.fill_form(contact)
+        # submit contact creation
+        wd.find_element_by_xpath("//*[@type='submit']").click()
+        self.return_to_homepage()
 
     def delete_first_contact(self):
         wd = self.app.wd
+        self.open_contact_page()
         # select first contact
         wd.find_element_by_name("selected[]").click()
         # submit deletion
@@ -53,11 +55,15 @@ class ContactHelper:
 
     def edit(self, contact):
         wd = self.app.wd
+        self.open_contact_page()
         # select first contact
         wd.find_element_by_name("selected[]").click()
         #submit edit
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
         self.fill_form(contact)
+        # submit contact creation
+        wd.find_element_by_xpath("//*[@type='submit']").click()
+        self.return_to_homepage()
 
     def return_to_homepage(self):
         wd = self.app.wd
