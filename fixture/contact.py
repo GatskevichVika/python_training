@@ -65,18 +65,6 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
 
-    def edit(self, contact):
-        wd = self.app.wd
-        self.open_contact_page()
-        # select first contact
-        wd.find_element_by_name("selected[]").click()
-        # submit edit
-        wd.find_element_by_xpath("//img[@alt='Edit']").click()
-        self.fill_form(contact)
-        # submit contact creation
-        wd.find_element_by_xpath("//*[@type='submit']").click()
-        self.return_to_homepage()
-
     def return_to_homepage(self):
         wd = self.app.wd
         wd.find_element_by_link_text("home page").click()

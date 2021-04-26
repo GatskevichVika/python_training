@@ -59,17 +59,6 @@ class GroupHelper:
             wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
 
-    def edit(self, group):
-        wd = self.app.wd
-        self.open_groups_page()
-        # select first group
-        wd.find_element_by_name("selected[]").click()
-        # submit edit group
-        wd.find_element_by_name("edit").click()
-        self.fill_form(group)
-        wd.find_element_by_name("update").click()
-        self.return_to_groups_page()
-
     def return_to_groups_page(self):
         wd = self.app.wd
         wd.find_element_by_link_text("group page").click()
