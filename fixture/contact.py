@@ -19,6 +19,9 @@ class ContactHelper:
         self.open_contact_page()
         self.select_contact_by_index(index)
         # open modification form
+        row = wd.find_elements_by_name("entry")[index]
+        cell = row.find_elements_by_tag_name("td")[7]
+        cell.find_element_by_tag_name("a").click()
         #wd.find_element_by_xpath("//img[@alt='Edit']").click()
         #wd.find_element_by_tag_name("td[8]")[index].click()
         # fill contact form
@@ -26,6 +29,7 @@ class ContactHelper:
         # Submit modification
         wd.find_element_by_name("update").click()
         self.return_to_homepage()
+        self.contact_cache = None
 
     def fill_form(self, contact):
         wd = self.app.wd
@@ -33,7 +37,13 @@ class ContactHelper:
         self.change_field_value("middlename", contact.middlename)
         self.change_field_value("lastname", contact.lastname)
         self.change_field_value("company", contact.company)
-        self.change_field_value("mobilephone", contact.mobilephone)
+        self.change_field_value("address", contact.address)
+        self.change_field_value("home", contact.home)
+        self.change_field_value("mobile", contact.mobile)
+        self.change_field_value("work", contact.work)
+        self.change_field_value("phone2", contact.phone2)
+        self.change_field_value("email2", contact.email2)
+        self.change_field_value("email3", contact.email3)
         self.change_field_value("email", contact.email)
 
     def change_field_value(self, field_name, text):
@@ -90,8 +100,8 @@ class ContactHelper:
             self.contact_cache = []
             for row in wd.find_elements_by_name("entry"):
                 cells = row.find_elements_by_tag_name("td")
-                lastname = cells[2].text
-                firstname = cells[3].text
+                lastname = cells[1].text
+                firstname = cells[2].text
                 id = cells[0].find_element_by_tag_name("input").get_attribute("value")
                 all_phones = cells[5].text
                 self.contact_cache.append(Contact(lastname=lastname, firstname=firstname, id=id,
@@ -100,9 +110,7 @@ class ContactHelper:
 
     def select_contact_by_index(self, index):
         wd = self.app.wd
-        row = wd.find_elements_by_name("entry")[index]
-        cell = row.find_elements_by_tag_name("td")[7]
-        cell.find_element_by_tag_name("a").click()
+        wd.find_elements_by_name("selected[]")[index].click()
 
     def open_contact_to_edit_by_index(self, index):
         wd = self.app.wd
@@ -128,8 +136,8 @@ class ContactHelper:
         mobilephone = wd.find_element_by_name("mobile").get_attribute("value")
         workphone = wd.find_element_by_name("work").get_attribute("value")
         secondaryphone = wd.find_element_by_name("phone2").get_attribute("value")
-        return Contact(firstname=firstname, lastname=lastname, id=id, homephone=homephone, mobilephone=mobilephone,
-                       workphone=workphone, secondaryphone=secondaryphone)
+        return Contact(firstname=firstname, lastname=lastname, id=id, home=homephone, mobile=mobilephone,
+                       work=workphone, phone2=secondaryphone)
 
     def get_contact_from_view_page(self, index):
         wd = self.app.wd
@@ -139,8 +147,8 @@ class ContactHelper:
         mobilephone = re.search("M: (.*)", text).group(1)
         workphone = re.search("W: (.*)", text).group(1)
         secondaryphone = re.search("P: (.*)", text).group(1)
-        return Contact(homephone=homephone, mobilephone=mobilephone,
-                       workphone=workphone, secondaryphone=secondaryphone)
+        return Contact(home=homephone, mobile=mobilephone,
+                       work=workphone, phone2=secondaryphone)
 
 
 
