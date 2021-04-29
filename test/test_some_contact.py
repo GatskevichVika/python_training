@@ -7,13 +7,13 @@ def test_notes_from_home_page(app):
     assert contact_from_home_page.firstname == contact_from_edit_page.firstname
     assert contact_from_home_page.address == contact_from_edit_page.address
 
-    assert contact_from_home_page.contact_and_email == merge_phones_like_on_home_page(contact_from_edit_page)
+    assert contact_from_home_page.contact_and_email == merge_all_like_on_home_page(contact_from_edit_page)
 
 
 def clear(s):
         return re.sub("[() -]", "", s)
 
-def merge_phones_like_on_home_page(contact):
+def merge_all_like_on_home_page(contact):
     return "\n".join(filter(lambda x: x != "",
                             map(lambda x: clear(x),
                                 filter(lambda x: x is not None, [contact.home, contact.mobile, contact.work,

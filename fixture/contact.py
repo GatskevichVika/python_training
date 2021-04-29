@@ -107,9 +107,9 @@ class ContactHelper:
                 id = cells[0].find_element_by_tag_name("input").get_attribute("value")
                 contact_and_email = (cells[5].text + "\n" + cells[4].text)
                 #all_emails = cells[4].text
-                #all_phones = cells[5].text
+                all_phones = cells[5].text
                 self.contact_cache.append(Contact(lastname=lastname, firstname=firstname, id=id, address=address,
-                                                  contact_and_email=contact_and_email))
+                                                  contact_and_email=contact_and_email, all_phones_from_home_page=all_phones))
         return list(self.contact_cache)
 
     def select_contact_by_index(self, index):
