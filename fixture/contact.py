@@ -105,11 +105,11 @@ class ContactHelper:
                 firstname = cells[2].text
                 address = cells[3].text
                 id = cells[0].find_element_by_tag_name("input").get_attribute("value")
-                contact_and_email = (cells[5].text + "\n" + cells[4].text)
-                #all_emails = cells[4].text
+                all_emails = cells[4].text
                 all_phones = cells[5].text
-                self.contact_cache.append(Contact(lastname=lastname, firstname=firstname, id=id, address=address,
-                                                  contact_and_email=contact_and_email, all_phones_from_home_page=all_phones))
+                self.contact_cache.append(Contact(lastname=lastname, firstname=firstname, id=id,
+                                                  all_phones_from_home_page=all_phones,
+                                                  address=address, all_emails_from_home_page=all_emails))
         return list(self.contact_cache)
 
     def select_contact_by_index(self, index):
@@ -138,12 +138,10 @@ class ContactHelper:
         lastname = wd.find_element_by_name("lastname").get_attribute("value")
         id = wd.find_element_by_name("id").get_attribute("value")
         address = wd.find_element_by_name("address").get_attribute("value")
-
         home = wd.find_element_by_name("home").get_attribute("value")
         mobile = wd.find_element_by_name("mobile").get_attribute("value")
         work = wd.find_element_by_name("work").get_attribute("value")
         phone2 = wd.find_element_by_name("phone2").get_attribute("value")
-
         email = wd.find_element_by_name("email").get_attribute("value")
         email2 = wd.find_element_by_name("email2").get_attribute("value")
         email3 = wd.find_element_by_name("email3").get_attribute("value")
