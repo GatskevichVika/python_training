@@ -29,20 +29,22 @@ class ContactHelper:
         self.return_to_homepage()
         self.contact_cache = None
 
-    def modify_contact_by_id(self, id, new_contact_data):
+    def modify_contact_by_id(self, id, new_contact):
         wd = self.app.wd
+        id = int(id)
         self.open_contact_page()
-        self.select_contact_by_id(id)
+        self.edit_contact_by_id(id)
         # open modification form
-        row = wd.find_elements_by_name("entry")[id]
-        cell = row.find_elements_by_tag_name("td")[7]
-        cell.find_element_by_tag_name("a").click()
         # fill contact form
-        self.fill_form(new_contact_data)
+        self.fill_form(new_contact)
         # Submit modification
         wd.find_element_by_name("update").click()
         self.return_to_homepage()
         self.contact_cache = None
+
+    def edit_contact_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_css_selector('a[href="edit.php?id=%s"]' % id).click()
 
     def fill_form(self, contact):
         wd = self.app.wd
