@@ -19,7 +19,7 @@ class Contact:
         self.all_phones_from_home_page = all_phones_from_home_page
         self.email2 = email2
         self.email3 = email3
-        self.all_phones_from_home_page = all_emails_from_home_page
+        self.all_emails_from_home_page = all_emails_from_home_page
         self.contact_and_email = contact_and_email
 
     def __repr__(self):
