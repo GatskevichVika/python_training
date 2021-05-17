@@ -22,8 +22,21 @@ class ContactHelper:
         row = wd.find_elements_by_name("entry")[index]
         cell = row.find_elements_by_tag_name("td")[7]
         cell.find_element_by_tag_name("a").click()
-        #wd.find_element_by_xpath("//img[@alt='Edit']").click()
-        #wd.find_element_by_tag_name("td[8]")[index].click()
+        # fill contact form
+        self.fill_form(new_contact_data)
+        # Submit modification
+        wd.find_element_by_name("update").click()
+        self.return_to_homepage()
+        self.contact_cache = None
+
+    def modify_contact_by_id(self, id, new_contact_data):
+        wd = self.app.wd
+        self.open_contact_page()
+        self.select_contact_by_id(id)
+        # open modification form
+        row = wd.find_elements_by_name("entry")[id]
+        cell = row.find_elements_by_tag_name("td")[7]
+        cell.find_element_by_tag_name("a").click()
         # fill contact form
         self.fill_form(new_contact_data)
         # Submit modification
@@ -45,7 +58,6 @@ class ContactHelper:
         self.change_field_value("email", contact.email)
         self.change_field_value("email2", contact.email2)
         self.change_field_value("email3", contact.email3)
-
 
     def change_field_value(self, field_name, text):
         wd = self.app.wd
