@@ -11,6 +11,7 @@ def test_contact_from_home_page(app, db):
     index = 0
     for row in contact_from_home_page:
         assert contact_from_home_page[index] == contact_from_bd[index]
+
         #assert contact_from_home_page[index].lastname == contact_from_bd[index].lastname
         #assert contact_from_home_page[index].firstname == contact_from_bd[index].firstname
         #assert contact_from_home_page[index].address == contact_from_bd[index].address
