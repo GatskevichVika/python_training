@@ -1,0 +1,45 @@
+{
+  "uid" : "4b4757e66a1912dae1a509f688f20b0f",
+  "name" : "categories",
+  "children" : [ {
+    "name" : "Product defects",
+    "children" : [ {
+      "name" : "AssertionError: assert [1:New group ...,T7ta|3e, ...] == [1:New group ...,T7ta|3e, ...]\n  At index 40 diff: 50:nameq5f\"&j`wj:header QI^)i@0O. ^9sZ V?:footerRp&u  c+B N| != 50:New group name:header QI^)i@0O. ^9sZ V?:footerRp&u  c+B N|\n  Use -v to get the full diff",
+      "children" : [ {
+        "name" : "test_modify_group_name",
+        "uid" : "9639dd0166885fdd",
+        "parentUid" : "ee0389b845b08b14d4899b870d0b1c5d",
+        "status" : "failed",
+        "time" : {
+          "start" : 1621959640808,
+          "stop" : 1621959642365,
+          "duration" : 1557
+        },
+        "flaky" : true,
+        "parameters" : [ ]
+      } ],
+      "uid" : "ee0389b845b08b14d4899b870d0b1c5d"
+    } ],
+    "uid" : "8fb3a91ba5aaf9de24cc8a92edc82b5d"
+  }, {
+    "name" : "Test defects",
+    "children" : [ {
+      "name" : "AttributeError: 'NoneType' object has no attribute 'group'",
+      "children" : [ {
+        "name" : "test_phones_on_contact_view_page",
+        "uid" : "9cf5fad469ef8fa5",
+        "parentUid" : "4275126efd978a824e4c8f2963e9923f",
+        "status" : "broken",
+        "time" : {
+          "start" : 1621959646473,
+          "stop" : 1621959647591,
+          "duration" : 1118
+        },
+        "flaky" : true,
+        "parameters" : [ ]
+      } ],
+      "uid" : "4275126efd978a824e4c8f2963e9923f"
+    } ],
+    "uid" : "bdbf199525818fae7a8651db9eafe741"
+  } ]
+}
