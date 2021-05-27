@@ -105,52 +105,48 @@ class ContactHelper:
         wd.find_element_by_css_selector("div.msgbox")
         self.contact_cache = None
 
-    def add_contact_to_group(self):
+    def add_contact_to_group(self, id, gr_id, index):
+        # у нас есть id контакта
         wd = self.app.wd
-        # открыть главную страницу
         self.open_contact_page()
-        # выбрать вверху контакты без группы - [none]
         self.select_contact_without_group()
-        # выбрать из списка контакт, который добавляю
-        self.select_first_contact()
-        # выбрать внизу группу, в которую хочу добавить контакт
-        self.select_group()
+        if wd.find_element_by_tag_name("td") == 1:
+
+            self.select_contact_by_id_group(gr_id[index-1])
+        time.sleep(3)
+        self.select_contact_by_id(id)
+        time.sleep(3)
+        self.select_group_by_id(gr_id)
+        time.sleep(3)
         # нажать кнопку "Добавить"
         wd.find_element_by_xpath("//input[@value='Add to']").click()
         # перейти на страницу "Контакты в группе"
         wd.find_element_by_css_selector("div.msgbox i").click()
-        time.sleep(5)
-        self.return_to_homepage()
-
-    def delete_contact_from_group(self):
-        wd = self.app.wd
-        # открыть главную страницу
-        self.open_contact_page()
-        # выбрать контакты группы
-        self.select_contact_in_group()
-        # выбрать из списка контакт, который добавляю
-        self.select_first_contact()
-        # нажать кнопку "Удалить"
-        wd.find_element_by_xpath("//input[@name='remove']").click()
-        # перейти на страницу "Контакты в группе"
-        wd.find_element_by_css_selector("div.msgbox i").click()
-        time.sleep(5)
+        time.sleep(3)
         self.return_to_homepage()
 
     def select_contact_in_group(self):
         wd = self.app.wd
         wd.find_element_by_xpath("//select[@name='group']").click()
-        wd.find_element_by_xpath("//option[@value='80']").click()
+        wd.find_element_by_xpath("//option[@value='%s']").click()
 
-    def select_group(self):
+    def select_group_by_id(self, gr_id):
         wd = self.app.wd
         wd.find_element_by_xpath("//select[@name='to_group']").click()
-        wd.find_element_by_xpath('/html/body/div/div[4]/form[2]/div[4]/select/option[2]').click()
+        time.sleep(3)
+        wd.find_element_by_css_selector("select[name='to_group'] option[value='%s']" % gr_id).click()
+        time.sleep(3)
 
     def select_contact_without_group(self):
         wd = self.app.wd
         wd.find_element_by_xpath("//select[@name='group']").click()
         wd.find_element_by_xpath("//option[@value='[none]']").click()
+
+    def select_contact_by_id_group(self, gr_id, index):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("select[name='group'] option[value='%s']" % gr_id[index-1])
+        wd.find_element_by_xpath("//select[@name='group']").click()
+        wd.find_element_by_xpath("//option[@value='%s']" % gr_id).click()
 
     def select_first_contact(self):
         wd = self.app.wd
@@ -186,6 +182,7 @@ class ContactHelper:
                                                   address=address, all_emails_from_home_page=all_emails))
         return list(self.contact_cache)
 
+
     def select_contact_by_index(self, index):
         wd = self.app.wd
         #wd.find_element_by_xpath("//input[@type='checkbox']")[index].click()
@@ -193,7 +190,7 @@ class ContactHelper:
 
     def select_contact_by_id(self, id):
         wd = self.app.wd
-        wd.find_element_by_css_selector("input[value='%s']" % id).click()
+        wd.find_element_by_css_selector("input[id='%s']" % id).click()
 
     def open_contact_to_edit_by_index(self, index):
         wd = self.app.wd
