@@ -1,6 +1,7 @@
 from model.contact import Contact
 import re
 
+
 class ContactHelper:
 
     def __init__(self, app):
@@ -104,6 +105,27 @@ class ContactHelper:
         wd.find_element_by_css_selector("div.msgbox")
         self.contact_cache = None
 
+    def add_contact_to_group(self):
+        wd = self.app.wd
+        self.open_contact_page()
+        self.select_contact_without_group()
+
+        self.select_group()
+        self.select_first_contact()
+        wd.find_element_by_xpath("//input[@name='Add']").click()
+
+        wd.find_element_by_css_selector("div.msgbox i").click()
+
+    def select_group(self):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//select[@name='to_group']").click()
+        wd.find_element_by_xpath("//option[contains(text(), 'test2')]").click()
+
+    def select_contact_without_group(self):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//select[@name='group']").click()
+        wd.find_element_by_xpath("//option[@value='[none]']").click()
+
     def select_first_contact(self):
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
@@ -139,6 +161,7 @@ class ContactHelper:
 
     def select_contact_by_index(self, index):
         wd = self.app.wd
+        #wd.find_element_by_xpath("//input[@type='checkbox']")[index].click()
         wd.find_elements_by_name("selected[]")[index].click()
 
     def select_contact_by_id(self, id):
@@ -188,3 +211,4 @@ class ContactHelper:
         secondaryphone = re.search("P: (.*)", text).group(1)
         return Contact(home=homephone, mobile=mobilephone,
                        work=workphone, phone2=secondaryphone)
+

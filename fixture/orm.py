@@ -23,7 +23,7 @@ class ORMFixture:
         id = PrimaryKey(int, column='id')
         firstname = Optional(str, column='firstname')
         lastname = Optional(str, column='lastname')
-        deprecated = Optional(datetime, column='deprecated')
+        deprecated = Optional(str, column='deprecated')
         groups = Set(lambda: ORMFixture.ORMGroup, table='address_in_groups', column='group_id',
                      reverse='contacts', lazy=True)
 
