@@ -10,15 +10,15 @@ def test_contact_from_home_page(app, db):
     contact_from_bd = sorted(db.get_contact_list(), key=Contact.id_or_max)
     index = 0
     for row in contact_from_home_page:
-        assert contact_from_home_page[index] == contact_from_bd[index]
+        #assert contact_from_home_page[index] == contact_from_bd[index]
 
-        #assert contact_from_home_page[index].lastname == contact_from_bd[index].lastname
-        #assert contact_from_home_page[index].firstname == contact_from_bd[index].firstname
-        #assert contact_from_home_page[index].address == contact_from_bd[index].address
-        #assert contact_from_home_page[index].all_phones_from_home_page == merge_phones_like_from_home_page(
-            #contact_from_bd[index])
-        #assert contact_from_home_page[index].all_emails_from_home_page == merge_emails_like_from_home_page(
-            #contact_from_bd[index])
+        assert contact_from_home_page[index].lastname == contact_from_bd[index].lastname
+        assert contact_from_home_page[index].firstname == contact_from_bd[index].firstname
+        assert contact_from_home_page[index].address == contact_from_bd[index].address
+        assert contact_from_home_page[index].all_phones_from_home_page == merge_phones_like_from_home_page(
+            contact_from_bd[index])
+        assert contact_from_home_page[index].all_emails_from_home_page == merge_emails_like_from_home_page(
+            contact_from_bd[index])
     index = index + 1
 
 
