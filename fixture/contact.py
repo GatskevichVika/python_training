@@ -1,6 +1,6 @@
 from model.contact import Contact
 import re
-
+import time
 
 class ContactHelper:
 
@@ -107,19 +107,45 @@ class ContactHelper:
 
     def add_contact_to_group(self):
         wd = self.app.wd
+        # открыть главную страницу
         self.open_contact_page()
+        # выбрать вверху контакты без группы - [none]
         self.select_contact_without_group()
-
-        self.select_group()
+        # выбрать из списка контакт, который добавляю
         self.select_first_contact()
-        wd.find_element_by_xpath("//input[@name='Add']").click()
-
+        # выбрать внизу группу, в которую хочу добавить контакт
+        self.select_group()
+        # нажать кнопку "Добавить"
+        wd.find_element_by_xpath("//input[@value='Add to']").click()
+        # перейти на страницу "Контакты в группе"
         wd.find_element_by_css_selector("div.msgbox i").click()
+        time.sleep(5)
+        self.return_to_homepage()
+
+    def delete_contact_from_group(self):
+        wd = self.app.wd
+        # открыть главную страницу
+        self.open_contact_page()
+        # выбрать контакты группы
+        self.select_contact_in_group()
+        # выбрать из списка контакт, который добавляю
+        self.select_first_contact()
+        # нажать кнопку "Удалить"
+        wd.find_element_by_xpath("//input[@name='remove']").click()
+        # перейти на страницу "Контакты в группе"
+        wd.find_element_by_css_selector("div.msgbox i").click()
+        time.sleep(5)
+        self.return_to_homepage()
+
+    def select_contact_in_group(self):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//select[@name='group']").click()
+        wd.find_element_by_xpath("//option[@value='80']").click()
 
     def select_group(self):
         wd = self.app.wd
         wd.find_element_by_xpath("//select[@name='to_group']").click()
-        wd.find_element_by_xpath("//option[contains(text(), 'test2')]").click()
+        wd.find_element_by_xpath('/html/body/div/div[4]/form[2]/div[4]/select/option[2]').click()
 
     def select_contact_without_group(self):
         wd = self.app.wd
@@ -132,7 +158,8 @@ class ContactHelper:
 
     def return_to_homepage(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home page").click()
+        wd.get("http://localhost/addressbook/")
+        #wd.find_element_by_link_text("home page").click()
 
     def count(self):
         wd = self.app.wd
