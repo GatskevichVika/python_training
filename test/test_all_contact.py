@@ -20,7 +20,7 @@ def test_contact_from_home_page(app, db):
         assert contact_from_home_page[index].all_emails_from_home_page == merge_emails_like_from_home_page(
             contact_from_bd[index])
     index = index + 1
-
+    assert sorted(contact_from_home_page, key=Contact.id_or_max) == sorted(contact_from_bd, key=Contact.id_or_max)
 
 def clear(s):
     return re.sub("[() -]", "", s)
