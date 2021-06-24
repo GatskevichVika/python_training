@@ -119,6 +119,16 @@ class ContactHelper:
         time.sleep(3)
         self.return_to_homepage()
 
+    def remove_contact_from_group(self, id, gr_id):
+        wd = self.app.wd
+        self.open_contact_page()
+        # выбрать в меню вверху нужную группу
+        self.select_group(gr_id)
+        # выбрать первый контакт в группу
+        self.select_contact_by_id(id)
+        # нажать кнопку "удалить"
+        wd.find_element_by_xpath("//input[@name='remove']").click()
+
     def select_contact_in_group(self):
         wd = self.app.wd
         wd.find_element_by_xpath("//select[@name='group']").click()
@@ -127,14 +137,17 @@ class ContactHelper:
     def select_group_by_id(self, gr_id):
         wd = self.app.wd
         wd.find_element_by_xpath("//select[@name='to_group']").click()
-        time.sleep(3)
         wd.find_element_by_css_selector("select[name='to_group'] option[value='%s']" % gr_id).click()
-        time.sleep(3)
 
     def select_contact_without_group(self):
         wd = self.app.wd
         wd.find_element_by_xpath("//select[@name='group']").click()
         wd.find_element_by_xpath("//option[@value='[none]']").click()
+
+    def select_group(self, gr_id):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//select[@name='group']").click()
+        wd.find_element_by_xpath("//option[@value='%s']" % gr_id).click()
 
     def select_contact_by_id_group(self, gr_id, index):
         wd = self.app.wd
