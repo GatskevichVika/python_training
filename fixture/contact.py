@@ -105,19 +105,13 @@ class ContactHelper:
         wd.find_element_by_css_selector("div.msgbox")
         self.contact_cache = None
 
-    def add_contact_to_group(self, id, gr_id, index):
+    def add_contact_to_group(self, id, gr_id):
         # у нас есть id контакта
         wd = self.app.wd
         self.open_contact_page()
         self.select_contact_without_group()
-        if wd.find_element_by_tag_name("td") == 1:
-
-            self.select_contact_by_id_group(gr_id[index-1])
-        time.sleep(3)
         self.select_contact_by_id(id)
-        time.sleep(3)
         self.select_group_by_id(gr_id)
-        time.sleep(3)
         # нажать кнопку "Добавить"
         wd.find_element_by_xpath("//input[@value='Add to']").click()
         # перейти на страницу "Контакты в группе"

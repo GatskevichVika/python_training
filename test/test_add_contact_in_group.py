@@ -1,43 +1,28 @@
-
+from model.contact import Contact
 from model.group import Group
 from fixture.orm import ORMFixture
 
 db = ORMFixture(host="127.0.0.1", name="addressbook", user="root", password="")
 
-try:
-    # проверить есть ли вообще группы
-    Gr = db.get_group_list()
-    print("Группы:")
-    group_id = []
-    # получить список ID групп
-    for group in Gr:
-        group_id.append(int(group.id))
-    print(group_id)
+def test_add_contact_in_group(app):
 
-    # проверить есть ли вообще контакты
-    adress = db.get_contact_list()
-    print("Контакты:")
-    print(adress)
-    adr_id = []
-    for contact in adress:
-        adr_id.append(int(contact.id))
-    print("ID контактов:")
-    print(adr_id)
-    address_in_group = db.get_contact_in_group(Group(id=group_id[0]))
-    print("Контакты в первой группе:")
-
-    def test_add_contact_to_group(app):
-        # сначала нужно обозначить группу для которой делается проверка
-        #for gr_id in group_id:
-        for index in range(len(group_id)):
-            # проверить какие контакты входят в группу
-            address_in_group = db.get_contact_in_group(Group(id=group_id[index]))
-            for i in range(len(adr_id)):
-                if adr_id[i] not in [address_in_group]:
-                    id = adr_id[i]
-                    gr_id = group_id[index]
-                    app.contact.add_contact_to_group(id, gr_id, index)
+    # получить список контактов, если контактов нет создать контакт
+    contact_list = db.get_contact_list()
+    if len(contact_list) == 0:
+        app.contact.create(Contact(firstname="test"))
+    # получить список групп, если групп нет создать группу
+    group_list = db.get_group_list()
+    if len(group_list) == 0:
+        app.group.create(Group(name="test"))
+    # найти первую группу по id, точнее из списка всех групп выбрать первую
+    group = group_list[0].id
+    # найти контакты которые не входят в первую группу
+    contact_not_in_group = db.get_contact_not_in_group(Group(id=group))
+    # выбрать контакт который надо добавить в группу
+    contact = contact_not_in_group[0].id
+    # добавить контакт в группу
+    app.contact.add_contact_to_group(id=contact, gr_id=group)
 
 
-finally:
+def remove_contact_from_group(app):
     pass
