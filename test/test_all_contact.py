@@ -31,6 +31,7 @@ def merge_phones_like_from_home_page(contact):
 
 def merge_emails_like_from_home_page(contact):
     return "\n".join([contact.email, contact.email2, contact.email3])
+
     #return "\n".join(filter(lambda x: x != "",
     #                        map(lambda x: clear(x),
     #                            filter(lambda x: x is not None,
