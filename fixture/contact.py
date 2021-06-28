@@ -109,9 +109,10 @@ class ContactHelper:
         # у нас есть id контакта
         wd = self.app.wd
         self.open_contact_page()
-        self.select_contact_without_group()
         self.select_contact_by_id(id)
+        time.sleep(3)
         self.select_group_by_id(gr_id)
+        time.sleep(3)
         # нажать кнопку "Добавить"
         wd.find_element_by_xpath("//input[@value='Add to']").click()
         # перейти на страницу "Контакты в группе"
@@ -124,8 +125,10 @@ class ContactHelper:
         self.open_contact_page()
         # выбрать в меню вверху нужную группу
         self.select_group(gr_id)
+        time.sleep(3)
         # выбрать первый контакт в группу
         self.select_contact_by_id(id)
+        time.sleep(3)
         # нажать кнопку "удалить"
         wd.find_element_by_xpath("//input[@name='remove']").click()
 

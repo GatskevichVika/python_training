@@ -1,6 +1,7 @@
 from model.contact import Contact
 from model.group import Group
 from fixture.orm import ORMFixture
+import random
 
 db = ORMFixture(host="127.0.0.1", name="addressbook", user="root", password="")
 
@@ -15,18 +16,14 @@ def test_add_contact_in_group(app):
     if len(group_list) == 0:
         app.group.create(Group(name="test"))
 
-    # найти первую группу по id, точнее из списка всех групп выбрать первую
-    group = group_list[0].id
-    # запросить контакты которые входят в эту группу
-    old_contacts = db.get_contact_in_group(Group(id=group))
-    # найти контакты которые не входят в первую группу
-    contact_not_in_group = db.get_contact_not_in_group(Group(id=group))
+    # выбираем случайную группу из списка
+    group = random.choice(group_list)
+    # Проверяем какие контакты в нее не входят
+    contact_not_in_group = db.get_contact_not_in_group(Group(id=group.id))
     # выбрать контакт который надо добавить в группу
-    contact = contact_not_in_group[0].id
+    contact = random.choice(contact_not_in_group).id
     # добавить контакт в группу
-    app.contact.add_contact_to_group(id=contact, gr_id=group)
-    # запросить контакты которые входят в эту группу
-    new_contacts = db.get_contact_in_group(Group(id=group))
-    assert len(old_contacts) + 1 == len(new_contacts)
+    app.contact.add_contact_to_group(id=contact, gr_id=group.id)
+
 
 
