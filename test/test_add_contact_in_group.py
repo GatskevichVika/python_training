@@ -20,25 +20,14 @@ def test_add_contact_in_group(app):
     # выбираем случайную группу из списка
     for group in new_group_list:
         contact_not_in_group = db.get_contact_not_in_group(Group(id=group.id))
-        if contact_not_in_group != 0:
-            contact = random.choice(contact_not_in_group).id
-            app.contact.add_contact_to_group(id=contact, gr_id=group.id)
-        else:
+        if len(contact_not_in_group) == 0:
             app.contact.create(Contact(firstname="test"))
             contact_not_in_group = db.get_contact_not_in_group(Group(id=group.id))
             contact = random.choice(contact_not_in_group).id
             app.contact.add_contact_to_group(id=contact, gr_id=group.id)
+        contact = random.choice(contact_not_in_group).id
+        app.contact.add_contact_to_group(id=contact, gr_id=group.id)
 
-
-    group = random.choice(new_group_list)
-    # Проверяем какие контакты в нее не входят
-    contact_not_in_group = db.get_contact_not_in_group(Group(id=group.id))
-
-
-    # выбрать контакт который надо добавить в группу
-    contact = random.choice(contact_not_in_group).id
-    # добавить контакт в группу
-    app.contact.add_contact_to_group(id=contact, gr_id=group.id)
 
 
 
