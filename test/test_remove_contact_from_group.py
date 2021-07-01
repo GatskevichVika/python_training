@@ -19,14 +19,17 @@ def test_add_contact_in_group(app):
     # выбираем случайную группу из списка
     group = random.choice(group_list)
     # Проверяем какие контакты в нее входят
-    contact_in_group = db.get_contact_in_group(Group(id=group.id))
+    old_contact_in_group = db.get_contact_in_group(Group(id=group.id))
     # Если в группе нет контактов - добавляем контакт в группу:
-    if len(contact_in_group) == 0:
+    if len(old_contact_in_group) == 0:
         contact = random.choice(contact_list)
         app.contact.add_contact_to_group(id=contact.id, gr_id=group.id)
     # Проверяем какие контакты в нее входят ещё раз
-    contact_in_group_new = db.get_contact_in_group(Group(id=group.id))
+    contact_in_group = db.get_contact_in_group(Group(id=group.id))
     # выбрать контакт который надо удалить
-    contact_del = random.choice(contact_in_group_new)
+    contact_del = random.choice(contact_in_group)
     # добавить контакт в группу
     app.contact.remove_contact_from_group(id=contact_del.id, gr_id=group.id)
+    new_contact_in_group = db.get_contact_in_group(Group(id=group.id))
+
+    assert len(contact_in_group) - 1 == len(new_contact_in_group)
