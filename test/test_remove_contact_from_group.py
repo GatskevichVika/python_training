@@ -15,14 +15,15 @@ def test_add_contact_in_group(app):
     group_list = db.get_group_list()
     if len(group_list) == 0:
         app.group.create(Group(name="test"))
-
+    new_group_list = db.get_group_list()
+    new_contact_list = db.get_contact_list()
     # выбираем случайную группу из списка
-    group = random.choice(group_list)
+    group = random.choice(new_group_list)
     # Проверяем какие контакты в нее входят
     old_contact_in_group = db.get_contact_in_group(Group(id=group.id))
     # Если в группе нет контактов - добавляем контакт в группу:
     if len(old_contact_in_group) == 0:
-        contact = random.choice(contact_list)
+        contact = random.choice(new_contact_list)
         app.contact.add_contact_to_group(id=contact.id, gr_id=group.id)
     # Проверяем какие контакты в нее входят ещё раз
     contact_in_group = db.get_contact_in_group(Group(id=group.id))
