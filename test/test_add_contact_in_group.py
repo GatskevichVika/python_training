@@ -17,21 +17,18 @@ def test_add_contact_in_group(app):
         app.group.create(Group(name="test"))
     # список всех групп
     new_group_list = db.get_group_list()
-    # найти группу у которой нет контакта
-    group = random.choice(new_group_list)
     # проверяем какие контакты не входят в группу
-
+    for group in new_group_list:
+        contact_not_in_group = db.get_contact_not_in_group(Group(id=group.id))
+        if len(contact_not_in_group) == 0:
+            app.contact.create(Contact(firstname="test"))
     old_contact_not_in_group = db.get_contact_not_in_group(Group(id=group.id))
-
-    if len(old_contact_not_in_group) == 0:
-        app.contact.create(Contact(firstname="test"))
-    # выбираем контак из списка не входящих в группу
+    old_contact_in_group = db.get_contact_in_group(Group(id=group.id))
     contact = random.choice(old_contact_not_in_group).id
-    # добавляем выбранный контакт в группу
     app.contact.add_contact_to_group(id=contact, gr_id=group.id)
     new_contact_not_in_group = db.get_contact_not_in_group(Group(id=group.id))
     new_contact_in_group = db.get_contact_in_group(Group(id=group.id))
 
     assert len(old_contact_not_in_group) - 1 == len(new_contact_not_in_group)
-
+    assert len(old_contact_in_group) + 1 == len(new_contact_in_group)
 
